@@ -24,3 +24,4 @@ def render_graph_ScreenSpaceReSTIRGraph():
 ScreenSpaceReSTIRGraph = render_graph_ScreenSpaceReSTIRGraph()
 try: m.addGraph(ScreenSpaceReSTIRGraph)
 except NameError: None
+m.loadScene('rabbit/rabbit.pyscene')

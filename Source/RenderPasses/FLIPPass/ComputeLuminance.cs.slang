@@ -26,7 +26,7 @@
  # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **************************************************************************/
 
- /** Compute shader for computing luminance of an RGB image.
+/** Compute shader for computing luminance of an RGB image.
   */
 
 #include "flip.hlsli"

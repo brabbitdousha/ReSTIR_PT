@@ -1,0 +1,62 @@
+AnimatedVersion = False
+
+camera = Camera()
+camera.position = float3(1.472850, 1.269930, -0.558769)
+camera.target = float3(0.648815, 1.177880, -1.117770)
+camera.up = float3(-0.031992, 0.999478, -0.004434)
+camera.focalLength = 36.9504
+sceneBuilder.addCamera(camera)
+
+Landscape = Material('Landscape')
+Landscape.loadTexture(MaterialTextureSlot.BaseColor, 'textures/landscape-with-a-lake.jpg')
+
+Table = Material('Table')
+Table.loadTexture(MaterialTextureSlot.BaseColor, 'textures/Good Textures_005844.jpg')
+
+DoorHandle = Material('DoorHandle')
+DoorHandle.baseColor = float4(0.92804748,0.91780447,0.91890865,1)
+DoorHandle.roughness = 0.5
+DoorHandle.metallic = 1
+
+Door = Material('Door')
+Door.loadTexture(MaterialTextureSlot.BaseColor, 'textures/cherry-wood-texture.jpg')
+
+Diffuse = Material('Diffuse')
+Diffuse.baseColor = float4(0.8,0.8,0.8,1)
+Diffuse.roughness = 1
+
+Floor = Material('Floor')
+Floor.roughness = 1
+Floor.loadTexture(MaterialTextureSlot.BaseColor, 'textures/checkerboxsmall.png')
+
+DoorFrame = Material('DoorFrame')
+DoorFrame.baseColor = float4(0.247059, 0.168627, 0.0901961, 1)
+
+PictureFrame = Material('PictureFrame')
+PictureFrame.baseColor = float4(0.258824, 0.207843, 0.145098, 1)
+
+Hinge = Material('Hinge')
+Hinge.roughness = 0.3162
+Hinge.metallic = 1
+Hinge.baseColor = float4(0.92804748,0.91780447,0.91890865,1)
+
+Light = Material('Light')
+Light.baseColor = float4(0,0,0,1)
+Light.emissiveColor = float3(1000,1000,1000)
+
+Pot2 = Material('Pot2')
+Pot2.roughness = 0.17
+Pot2.metallic = 1
+Pot2.baseColor = float4(0.92804748,0.91780447,0.91890865,1)
+
+obj = TriangleMesh.createFromFile('models/Light.obj')
+sceneBuilder.addMeshInstance(
+    sceneBuilder.addTriangleMesh(obj, Light),
+    sceneBuilder.addNode('Light', Transform())
+)
+
+obj = TriangleMesh.createFromFile('models/Mesh009_Pot2.obj')
+sceneBuilder.addMeshInstance(
+    sceneBuilder.addTriangleMesh(obj, Pot2),
+    sceneBuilder.addNode('Pot2', Transform())
+)
