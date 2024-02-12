@@ -73,7 +73,9 @@ struct TemporalResampling
 
         printSetPixel(pixel);
 
-        if (kDebugOutput == DebugOutput::TemporalReuse) debugOutput[pixel] = float4(1.f, 0.f, 0.f, 0.f);
+        float2 mv = motionVectors[pixel];
+
+        if (kDebugOutput == DebugOutput::TemporalReuse) debugOutput[pixel] = float4(1.0f, 0.f, 0.f, 0.f);
 
         const uint pixelIndex = getPixelIndex(pixel);
 
@@ -84,16 +86,16 @@ struct TemporalResampling
         if (!isValidPixel(prevPixel)) return;
         const uint prevPixelIndex = getPixelIndex(prevPixel);
 
-        // Setup evaluation context for current pixel.
-        const EvalContext currentContext = EvalContext::create(pixel, frameDim, SurfaceData::createFromPacked(surfaceData[pixelIndex]));
-        if (!currentContext.isValid()) return;
-
         // Setup evaluation context for back-projected pixel.
         const EvalContext prevContext = EvalContext::create(prevPixel, frameDim, SurfaceData::createFromPacked(prevSurfaceData[prevPixelIndex]));
         if (!prevContext.isValid()) return;
 
         // Write debug output.
-        if (kDebugOutput == DebugOutput::TemporalReuse) debugOutput[pixel] = float4(0.f, 1.f, 0.f, 0.f);
+        if (kDebugOutput == DebugOutput::TemporalReuse) debugOutput[pixel] = float4(prevContext.N * 0.5f + 0.5f, 0.f);
+
+        // Setup evaluation context for current pixel.
+        const EvalContext currentContext = EvalContext::create(pixel, frameDim, SurfaceData::createFromPacked(surfaceData[pixelIndex]));
+        if (!currentContext.isValid()) return;
 
         // Load reservoirs.
         Reservoir currentReservoir = Reservoir::createFromPacked(reservoirs[pixelIndex]);

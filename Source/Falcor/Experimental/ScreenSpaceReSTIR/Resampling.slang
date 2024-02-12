@@ -196,7 +196,7 @@ bool streamingResampleStepMisUnbiased<S : ISampleGenerator>(
     const LoadedLightSample candidateLightSample = lights.loadLightSample(candidateReservoir.lightSample);
 
     float candidateTargetPdf = candidateContext.evalTargetFunction(candidateLightSample);
-    float candidateTargetPdfAtOther = canonicalContext.evalTargetFunction(candidateLightSample);;
+    float candidateTargetPdfAtOther = canonicalContext.evalTargetFunction(candidateLightSample);
     float canonicalTargetPdfAtOther = candidateContext.evalTargetFunction(canonicalLightSample);
 
     float canonicalVisibility = canonicalContext.evalVisibility(candidateLightSample);

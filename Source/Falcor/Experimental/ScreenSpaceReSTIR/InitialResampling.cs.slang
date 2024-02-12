@@ -104,12 +104,18 @@ struct InitialResampling
         printSetPixel(pixel);
 
         if (kDebugOutput == DebugOutput::InitialWeight) debugOutput[pixel] = float4(0.f);
+        
+        
 
         uint pixelIndex = getPixelIndex(pixel);
 
         // Setup evaluation context.
         SurfaceData sd = SurfaceData::createFromPacked(surfaceData[pixelIndex]);
         EvalContext evalContext = EvalContext::create(pixel, frameDim, sd);
+
+        //debug
+        float3 ray_dir = (-evalContext.V + 1)*0.5;
+        if (kDebugOutput == DebugOutput::Depth) debugOutput[pixel] = float4(ray_dir, 0.f);
 
         // Early out if pixel contains no valid data (i.e. background pixel).
         if (!evalContext.isValid())
@@ -118,11 +124,14 @@ struct InitialResampling
             return;
         }
 
+        
+        float3 val = float3(0.0f);
+        if (useSourcePDFForRMIS) val = float3(1.0f);
         // Debug pixel data.
         switch (kDebugOutput)
         {
         case DebugOutput::Position: debugOutput[pixel] = float4(sd.pos, 0.f); break;
-        case DebugOutput::Depth: debugOutput[pixel] = float4(float3(sd.depth), 0.f); break;
+        case DebugOutput::Depth: debugOutput[pixel] = float4(ray_dir, 0.f); break;
         case DebugOutput::Normal: debugOutput[pixel] = float4(sd.normal * 0.5f + 0.5f, 0.f); break;
         case DebugOutput::FaceNormal: debugOutput[pixel] = float4(sd.faceNormal * 0.5f + 0.5f, 0.f); break;
         case DebugOutput::DiffuseWeight: debugOutput[pixel] = float4(float3(sd.diffuseWeight), 0.f); break;

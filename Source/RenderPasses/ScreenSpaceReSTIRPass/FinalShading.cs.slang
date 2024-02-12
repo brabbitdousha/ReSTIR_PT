@@ -68,7 +68,9 @@ struct FinalShading
         float3 specularReflectance = {};
         float3 specularIllumination = {};
         float hitT = 10000.f; // TODO: Remove magic number also used in SpatioTemporalResampling pass.
-
+        float3 test_dir = float3(0.f);
+        float3 test_Li = float3(0.f);
+        float test_distance = 0.f;
         ShadingData sd;
         if (loadShadingData(pixel, frameDim, gScene.camera, vbuffer, sd))
         {
@@ -79,16 +81,20 @@ struct FinalShading
             float3 Li;
             bool valid = screenSpaceReSTIR.getFinalSample(pixel, dir, distance, Li);
 
+            test_dir = (dir + 1)*0.5;
+            test_distance = distance;
+            test_Li = Li;
+
             // Evaluate diffuse and specular lobes.
             float3 diffuse = {};
             float3 specular = {};
-            if (valid)
+            //if (valid)
             {
                 sd.setActiveLobes((uint)LobeType::DiffuseReflection);
-                diffuse = standardMaterial.eval(sd, dir) * Li;
+                diffuse = standardMaterial.eval(sd, dir) ;//* Li;
 
                 sd.setActiveLobes((uint)LobeType::SpecularReflection);
-                specular = standardMaterial.eval(sd, dir) * Li;
+                specular = standardMaterial.eval(sd, dir) ;//* Li;
 
                 hitT = distance;
             }
@@ -122,7 +128,7 @@ struct FinalShading
         if (ReSTIRInstanceID == 0)
         {
             if (is_valid(gColor)) gColor[pixel] = float4(color, 1.f) / numReSTIRInstances;
-            if (is_valid(gEmission)) gEmission[pixel] = float4(emission, 1.f) / numReSTIRInstances;
+            if (is_valid(gEmission)) gEmission[pixel] = float4(float3(test_Li),1.f);//float4(emission, 1.f) / numReSTIRInstances;
             if (is_valid(gDiffuseReflectance)) gDiffuseReflectance[pixel] = float4(diffuseReflectance, 1.f) / numReSTIRInstances;
             if (is_valid(gDiffuseIllumination)) gDiffuseIllumination[pixel] = float4(diffuseIllumination, hitT) / numReSTIRInstances;
             if (is_valid(gSpecularReflectance)) gSpecularReflectance[pixel] = float4(specularReflectance, 1.f) / numReSTIRInstances;

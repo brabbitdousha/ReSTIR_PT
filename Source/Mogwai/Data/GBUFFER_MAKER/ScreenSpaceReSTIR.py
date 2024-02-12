@@ -18,7 +18,8 @@ def render_graph_ScreenSpaceReSTIRGraph():
     g.addEdge("GBufferRT.mvec", "ScreenSpaceReSTIRPass.motionVectors")
     g.addEdge("ScreenSpaceReSTIRPass.color", "AccumulatePass.input")
     g.addEdge("AccumulatePass.output", "ToneMapper.src")
-    g.markOutput("ToneMapper.dst")
+    #g.markOutput("ToneMapper.dst")
+    g.markOutput("ScreenSpaceReSTIRPass.debug")
     return g
 
 ScreenSpaceReSTIRGraph = render_graph_ScreenSpaceReSTIRGraph()
@@ -27,15 +28,15 @@ except NameError: None
 m.loadScene('rabbit/rabbit.pyscene')
 
 #caputre
-'''
+#'''
 m.clock.pause()
 m.frameCapture.outputDir = "D:/test_space/falcor_test/output"
 
-frames = [20, 50, 100]
+frames = [0, 1, 100]
 for i in range(101):
     m.renderFrame()
     if i in frames:
-        m.frameCapture.baseFilename = f"Mogwai-{i:04d}"
+        m.frameCapture.baseFilename = f"color-{i:04d}"
         m.frameCapture.capture()
 exit()
-'''
+#'''
