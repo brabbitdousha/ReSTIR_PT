@@ -88,13 +88,13 @@ struct FinalShading
             // Evaluate diffuse and specular lobes.
             float3 diffuse = {};
             float3 specular = {};
-            //if (valid)
+            if (valid)
             {
                 sd.setActiveLobes((uint)LobeType::DiffuseReflection);
-                diffuse = standardMaterial.eval(sd, dir) ;//* Li;
+                diffuse = standardMaterial.eval(sd, dir) * Li;
 
                 sd.setActiveLobes((uint)LobeType::SpecularReflection);
-                specular = standardMaterial.eval(sd, dir) ;//* Li;
+                specular = standardMaterial.eval(sd, dir) * Li;
 
                 hitT = distance;
             }
