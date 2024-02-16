@@ -237,11 +237,11 @@ struct InitialResampling
         }
 
         // Check visibility.
-        if (kCheckVisibility && risState.lightSample.isValid())
-        {
-            const EvaluatedLightSample evaluatedLightSample = lights.evalLightSample(risState.lightSample, evalContext.pos);
-            if (evalContext.evalVisibility(evaluatedLightSample) == 0.f) risState = RisState::createEmpty();
-        }
+        //if (kCheckVisibility && risState.lightSample.isValid())
+        //{
+        //    const EvaluatedLightSample evaluatedLightSample = lights.evalLightSample(risState.lightSample, evalContext.pos);
+        //    if (evalContext.evalVisibility(evaluatedLightSample) == 0.f) risState = RisState::createEmpty();
+        //}
 
         // Instead of storing the weight sum and weight individually,
         // we precompute the term that would be multiplied with the final sample evaluation.

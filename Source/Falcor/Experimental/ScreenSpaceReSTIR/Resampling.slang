@@ -199,11 +199,11 @@ bool streamingResampleStepMisUnbiased<S : ISampleGenerator>(
     float candidateTargetPdfAtOther = canonicalContext.evalTargetFunction(candidateLightSample);
     float canonicalTargetPdfAtOther = candidateContext.evalTargetFunction(canonicalLightSample);
 
-    float canonicalVisibility = canonicalContext.evalVisibility(candidateLightSample);
-    float candidateVisibility = candidateContext.evalVisibility(canonicalLightSample);
+    //float canonicalVisibility = canonicalContext.evalVisibility(candidateLightSample);
+    //float candidateVisibility = candidateContext.evalVisibility(canonicalLightSample);
 
-    candidateTargetPdfAtOther *= canonicalVisibility;
-    canonicalTargetPdfAtOther *= candidateVisibility;
+    //candidateTargetPdfAtOther *= canonicalVisibility;
+    //canonicalTargetPdfAtOther *= candidateVisibility;
 
     float m0 = pairwiseMisWeight(candidateTargetPdf, candidateTargetPdfAtOther, candidateReservoir.M * k, canonicalReservoir.M);
     float m1 = 1.f - pairwiseMisWeight(canonicalTargetPdfAtOther, canonicalTargetPdf, candidateReservoir.M * k, canonicalReservoir.M);

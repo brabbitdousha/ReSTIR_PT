@@ -19,7 +19,7 @@ def render_graph_ScreenSpaceReSTIRGraph():
     g.addEdge("ScreenSpaceReSTIRPass.color", "AccumulatePass.input")
     g.addEdge("AccumulatePass.output", "ToneMapper.src")
     #g.markOutput("ToneMapper.dst")
-    g.markOutput("ScreenSpaceReSTIRPass.debug")
+    g.markOutput("ScreenSpaceReSTIRPass.color")
     return g
 
 ScreenSpaceReSTIRGraph = render_graph_ScreenSpaceReSTIRGraph()

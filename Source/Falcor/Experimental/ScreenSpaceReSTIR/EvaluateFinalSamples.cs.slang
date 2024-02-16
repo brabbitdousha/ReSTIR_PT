@@ -79,7 +79,7 @@ struct EvaluateFinalSamples
 
             // Evaluate visibility.
             float visibility = 1.f;
-            if (kUseVisibility) visibility = evalContext.evalVisibility(evaluatedLightSample);
+            //if (kUseVisibility) visibility = evalContext.evalVisibility(evaluatedLightSample);
 
             if (visibility > 0.f)
             {
