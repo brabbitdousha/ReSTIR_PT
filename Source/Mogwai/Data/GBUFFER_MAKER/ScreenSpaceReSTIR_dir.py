@@ -1,0 +1,43 @@
+from falcor import *
+
+def render_graph_ScreenSpaceReSTIRGraph():
+    g = RenderGraph("ScreenSpaceReSTIR")
+    loadRenderPassLibrary("AccumulatePass.dll")
+    loadRenderPassLibrary("GBuffer.dll")
+    loadRenderPassLibrary("ScreenSpaceReSTIRPass.dll")
+    loadRenderPassLibrary("ToneMapper.dll")
+    GBufferRT = createPass("GBufferRT")
+    g.addPass(GBufferRT, "GBufferRT")
+    ScreenSpaceReSTIRPass = createPass("ScreenSpaceReSTIRPass")
+    g.addPass(ScreenSpaceReSTIRPass, "ScreenSpaceReSTIRPass")
+    AccumulatePass = createPass("AccumulatePass", {'enabled': True, 'precisionMode': AccumulatePrecision.Single})
+    g.addPass(AccumulatePass, "AccumulatePass")
+    ToneMapper = createPass("ToneMapper", {'autoExposure': False, 'exposureCompensation': 0.0, 'operator': ToneMapOp.Linear})
+    g.addPass(ToneMapper, "ToneMapper")
+    g.addEdge("GBufferRT.vbuffer", "ScreenSpaceReSTIRPass.vbuffer")
+    g.addEdge("GBufferRT.mvec", "ScreenSpaceReSTIRPass.motionVectors")
+    g.addEdge("ScreenSpaceReSTIRPass.color", "AccumulatePass.input")
+    g.addEdge("AccumulatePass.output", "ToneMapper.src")
+    #g.markOutput("ToneMapper.dst")
+    #g.markOutput("ScreenSpaceReSTIRPass.debug")
+    g.markOutput("AccumulatePass.output")
+    return g
+
+ScreenSpaceReSTIRGraph = render_graph_ScreenSpaceReSTIRGraph()
+try: m.addGraph(ScreenSpaceReSTIRGraph)
+except NameError: None
+m.loadScene('rabbit/rabbit.pyscene')
+
+#caputre
+#'''
+m.clock.pause()
+m.frameCapture.outputDir = "D:/test_space/falcor_test/output"
+
+frames = [0, 64, 1024]
+for i in range(1026):
+    m.renderFrame()
+    if i in frames:
+        m.frameCapture.baseFilename = f"acc_frame-{i:04d}"
+        m.frameCapture.capture()
+exit()
+#'''
