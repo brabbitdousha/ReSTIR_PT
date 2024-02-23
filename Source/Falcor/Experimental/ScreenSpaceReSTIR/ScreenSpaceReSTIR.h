@@ -168,7 +168,7 @@ namespace Falcor
             bool usePairwiseMIS = true;                 ///< Use pairwise MIS when combining samples.
             bool unbiased = true;                      ///< Use unbiased version of ReSTIR by querying extra visibility rays.
 
-            DebugOutput debugOutput = DebugOutput::Depth;//hard code
+            DebugOutput debugOutput = DebugOutput::SpatialReuse;//hard code
 
             bool enabled = true;  // (I think) now controls both ReSTIR GI and DI
 

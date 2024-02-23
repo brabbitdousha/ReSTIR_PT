@@ -86,9 +86,11 @@ struct SpatialResampling
 
         printSetPixel(pixel);
 
-        if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] = float4(1.f, 0.f, 0.f, 0.f);
+        //if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] = float4(1.f, 0.f, 0.f, 0.f);
 
         const uint pixelIndex = getPixelIndex(pixel);
+
+        //if (kDebugOutput == DebugOutput::SpatialReuse && pixelIndex<kNeighborOffsetCount) debugOutput[pixel] = float4(float2(neighborOffsets[pixelIndex]), 0.f, 0.f);
 
         TinyUniformSampleGenerator sg = TinyUniformSampleGenerator(pixel, frameIndex);
 
@@ -127,10 +129,13 @@ struct SpatialResampling
                 int2 neighborPixel = getNextNeighborPixel(startIndex, pixel, i);
                 if (!isValidPixel(neighborPixel)) continue;
                 uint neighborPixelIndex = getPixelIndex(neighborPixel);
+                
 
                 // Check for valid neighbor.
                 float4 neighborNormalDepth = unpackNormalDepth(normalDepth[neighborPixel]);
                 if (!evalContext.isValidNeighbor(neighborNormalDepth, normalThreshold, depthThreshold)) continue;
+
+                if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] += float4(1.f, 1.f, 1.f, 0.f);
 
                 const Reservoir neighborReservoir = Reservoir::createFromPacked(prevReservoirs[neighborPixelIndex]);
                 if (neighborReservoir.M == 0) continue;
@@ -151,6 +156,8 @@ struct SpatialResampling
             streamingResampleFinalizeMis(risState, currentReservoir, currentTargetPdf, sg);
             risState.M = currentReservoir.M;
             risState.weight = risState.weight > 0.f ? (risState.weightSum / validNeighbors) / risState.weight : 0.f;
+
+            if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] /= float4(neighborCount);
         }
         else
         {
@@ -235,7 +242,7 @@ struct SpatialResampling
         reservoirs[pixelIndex] = risState.toReservoir().pack();
 
         // Write debug output.
-        if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] = float4(lerp(float3(1.f, 0.f, 0.f), float3(0.f, 1.f, 0.f), float(validCount) / neighborCount), 0.f);
+        //if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] = float4(lerp(float3(1.f, 0.f, 0.f), float3(0.f, 1.f, 0.f), float(validCount) / neighborCount), 0.f);
     }
 };
 

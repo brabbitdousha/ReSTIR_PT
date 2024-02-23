@@ -19,7 +19,7 @@ def render_graph_ScreenSpaceReSTIRGraph():
     g.addEdge("ScreenSpaceReSTIRPass.color", "AccumulatePass.input")
     g.addEdge("AccumulatePass.output", "ToneMapper.src")
     #g.markOutput("ToneMapper.dst")
-    g.markOutput("ScreenSpaceReSTIRPass.color")
+    g.markOutput("ScreenSpaceReSTIRPass.debug")
     return g
 
 ScreenSpaceReSTIRGraph = render_graph_ScreenSpaceReSTIRGraph()
@@ -36,7 +36,7 @@ frames = [0, 1, 100]
 for i in range(101):
     m.renderFrame()
     if i in frames:
-        m.frameCapture.baseFilename = f"color-{i:04d}"
+        m.frameCapture.baseFilename = f"spatial_2-{i:04d}"
         m.frameCapture.capture()
 exit()
 #'''

@@ -33,8 +33,8 @@ m.loadScene('rabbit/rabbit.pyscene')
 m.clock.pause()
 m.frameCapture.outputDir = "D:/test_space/falcor_test/output"
 
-frames = [0, 64, 1024]
-for i in range(1026):
+frames = [0, 64, 128]
+for i in range(129):
     m.renderFrame()
     if i in frames:
         m.frameCapture.baseFilename = f"acc_frame-{i:04d}"
