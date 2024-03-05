@@ -86,7 +86,7 @@ struct SpatialResampling
 
         printSetPixel(pixel);
 
-        //if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] = float4(1.f, 0.f, 0.f, 0.f);
+        if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] = float4(0.f, 0.f, 0.f, 0.f);
 
         const uint pixelIndex = getPixelIndex(pixel);
 
@@ -106,6 +106,7 @@ struct SpatialResampling
             reservoirs[pixelIndex] = Reservoir::createEmpty().pack();
             return;
         }
+        if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] = float4(1.f, 1.f, 1.f, 0.f);
 
         // Setup resampling.
         RisState risState = RisState::createEmpty();
@@ -135,7 +136,7 @@ struct SpatialResampling
                 float4 neighborNormalDepth = unpackNormalDepth(normalDepth[neighborPixel]);
                 if (!evalContext.isValidNeighbor(neighborNormalDepth, normalThreshold, depthThreshold)) continue;
 
-                if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] += float4(1.f, 1.f, 1.f, 0.f);
+                //if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] += float4(1.f, 1.f, 1.f, 0.f);
 
                 const Reservoir neighborReservoir = Reservoir::createFromPacked(prevReservoirs[neighborPixelIndex]);
                 if (neighborReservoir.M == 0) continue;
@@ -157,7 +158,7 @@ struct SpatialResampling
             risState.M = currentReservoir.M;
             risState.weight = risState.weight > 0.f ? (risState.weightSum / validNeighbors) / risState.weight : 0.f;
 
-            if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] /= float4(neighborCount);
+            //if (kDebugOutput == DebugOutput::SpatialReuse) debugOutput[pixel] /= float4(neighborCount);
         }
         else
         {

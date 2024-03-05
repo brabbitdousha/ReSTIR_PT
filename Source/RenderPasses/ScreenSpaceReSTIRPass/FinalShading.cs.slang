@@ -128,7 +128,7 @@ struct FinalShading
         if (ReSTIRInstanceID == 0)
         {
             if (is_valid(gColor)) gColor[pixel] = float4(color, 1.f) / numReSTIRInstances;
-            if (is_valid(gEmission)) gEmission[pixel] = float4(float3(test_Li),1.f);//float4(emission, 1.f) / numReSTIRInstances;
+            if (is_valid(gEmission)) gEmission[pixel] = float4(float3(sd.linearRoughness),1.f);//float4(emission, 1.f) / numReSTIRInstances;
             if (is_valid(gDiffuseReflectance)) gDiffuseReflectance[pixel] = float4(diffuseReflectance, 1.f) / numReSTIRInstances;
             if (is_valid(gDiffuseIllumination)) gDiffuseIllumination[pixel] = float4(diffuseIllumination, hitT) / numReSTIRInstances;
             if (is_valid(gSpecularReflectance)) gSpecularReflectance[pixel] = float4(specularReflectance, 1.f) / numReSTIRInstances;

@@ -25,19 +25,19 @@ def render_graph_ScreenSpaceReSTIRGraph():
 ScreenSpaceReSTIRGraph = render_graph_ScreenSpaceReSTIRGraph()
 try: m.addGraph(ScreenSpaceReSTIRGraph)
 except NameError: None
-m.resizeSwapChain(800, 800)
 m.loadScene('rabbit/rabbit.pyscene')
 
 #caputre
 #'''
+m.resizeSwapChain(960, 540)
 m.clock.pause()
 m.frameCapture.outputDir = "D:/test_space/falcor_test/output_brdf"
 
-frames = [0, 20, 100]
+frames = [20, 50, 100]
 for i in range(101):
     m.renderFrame()
     if i in frames:
-        m.frameCapture.baseFilename = f"new_linearRoughness_f-{i:04d}"
+        m.frameCapture.baseFilename = f"linearRoughness_small-{i:04d}"
         m.frameCapture.capture()
 exit()
 #'''

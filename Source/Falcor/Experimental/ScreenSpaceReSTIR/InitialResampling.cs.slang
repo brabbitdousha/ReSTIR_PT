@@ -115,7 +115,7 @@ struct InitialResampling
 
         //debug
         float3 ray_dir = (-evalContext.V + 1)*0.5;
-        if (kDebugOutput == DebugOutput::Depth) debugOutput[pixel] = float4(ray_dir, 0.f);
+        //if (kDebugOutput == DebugOutput::Depth) debugOutput[pixel] = float4(ray_dir, 0.f);
 
         // Early out if pixel contains no valid data (i.e. background pixel).
         if (!evalContext.isValid())
@@ -131,7 +131,7 @@ struct InitialResampling
         switch (kDebugOutput)
         {
         case DebugOutput::Position: debugOutput[pixel] = float4(sd.pos, 0.f); break;
-        case DebugOutput::Depth: debugOutput[pixel] = float4(ray_dir, 0.f); break;
+        case DebugOutput::Depth: debugOutput[pixel] = float4(float3(sd.pos), 0.f); break;
         case DebugOutput::Normal: debugOutput[pixel] = float4(sd.normal * 0.5f + 0.5f, 0.f); break;
         case DebugOutput::FaceNormal: debugOutput[pixel] = float4(sd.faceNormal * 0.5f + 0.5f, 0.f); break;
         case DebugOutput::DiffuseWeight: debugOutput[pixel] = float4(float3(sd.diffuseWeight), 0.f); break;

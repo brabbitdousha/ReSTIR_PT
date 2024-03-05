@@ -25,6 +25,8 @@ def render_graph_ScreenSpaceReSTIRGraph():
 ScreenSpaceReSTIRGraph = render_graph_ScreenSpaceReSTIRGraph()
 try: m.addGraph(ScreenSpaceReSTIRGraph)
 except NameError: None
+#m.resizeSwapChain(800, 800)
+m.resizeSwapChain(800, 800)
 m.loadScene('rabbit/rabbit.pyscene')
 
 #caputre
@@ -32,11 +34,11 @@ m.loadScene('rabbit/rabbit.pyscene')
 m.clock.pause()
 m.frameCapture.outputDir = "D:/test_space/falcor_test/output"
 
-frames = [0, 1, 100]
+frames = [0, 20, 100]
 for i in range(101):
     m.renderFrame()
     if i in frames:
-        m.frameCapture.baseFilename = f"spatial_2-{i:04d}"
+        m.frameCapture.baseFilename = f"new_pos-{i:04d}"
         m.frameCapture.capture()
 exit()
 #'''

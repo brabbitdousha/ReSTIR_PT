@@ -19,25 +19,25 @@ def render_graph_ScreenSpaceReSTIRGraph():
     g.addEdge("ScreenSpaceReSTIRPass.color", "AccumulatePass.input")
     g.addEdge("AccumulatePass.output", "ToneMapper.src")
     #g.markOutput("ToneMapper.dst")
-    g.markOutput("ScreenSpaceReSTIRPass.emission")
+    g.markOutput("ScreenSpaceReSTIRPass.debug")
     return g
 
 ScreenSpaceReSTIRGraph = render_graph_ScreenSpaceReSTIRGraph()
 try: m.addGraph(ScreenSpaceReSTIRGraph)
 except NameError: None
-m.resizeSwapChain(800, 800)
 m.loadScene('rabbit/rabbit.pyscene')
 
 #caputre
 #'''
+m.resizeSwapChain(960, 540)
 m.clock.pause()
-m.frameCapture.outputDir = "D:/test_space/falcor_test/output_brdf"
+m.frameCapture.outputDir = "D:/test_space/falcor_test/output"
 
 frames = [0, 20, 100]
 for i in range(101):
     m.renderFrame()
     if i in frames:
-        m.frameCapture.baseFilename = f"new_linearRoughness_f-{i:04d}"
+        m.frameCapture.baseFilename = f"ray_dir_small-{i:04d}"
         m.frameCapture.capture()
 exit()
 #'''
